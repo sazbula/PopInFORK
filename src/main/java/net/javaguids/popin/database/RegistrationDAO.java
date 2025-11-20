@@ -122,6 +122,31 @@ public class RegistrationDAO {
         }
     }
 
+    public List<Integer> findUserIdsByEvent(int eventId) {
+        List<Integer> list = new ArrayList<>();
+
+        String sql = """
+        SELECT user_id FROM registrations
+        WHERE event_id = ? AND status = 'REGISTERED';
+    """;
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, eventId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                list.add(rs.getInt("user_id"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
     // GET LIST OF ALL REGISTRATIONS (ATTENDEES)
     public List<Registration> findAllByEvent(int eventId) {
         List<Registration> list = new ArrayList<>();

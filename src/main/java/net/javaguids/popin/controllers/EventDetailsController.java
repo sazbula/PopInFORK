@@ -148,6 +148,25 @@ public class EventDetailsController {
     private void handleDeleteEvent() {
         showInfo("Delete event not implemented yet.");
     }
+    @FXML
+    private void handleViewAttendees() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/net/javaguids/popin/views/attendee-list.fxml"));
+            Parent root = loader.load();
+
+            AttendeeListController controller = loader.getController();
+            controller.setEvent(event);
+
+            Stage stage = new Stage();
+            stage.setTitle("Attendee List");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (Exception e) {
+            showError("Could not open attendee list: " + e.getMessage());
+        }
+    }
+
 
     // -----------------------------------------
     // UI UTILITIES
