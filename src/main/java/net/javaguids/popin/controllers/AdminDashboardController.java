@@ -13,40 +13,49 @@ public class AdminDashboardController {
 
     public void setLoggedInUser(User user) {
         this.loggedInAdmin = user;
+        System.out.println("Logged in admin: " + user.getUsername());
     }
 
     @FXML
     private void handleViewEvents() {
-        // TODO: open a global event list for admin
-        openScene("/net/javaguids/popin/views/event-list.fxml", "All Events");
+        System.out.println("Admin clicked: View All Events");
+        openScene("/net/javaguids/popin/views/admin-event-list.fxml",
+                "All Events (Admin)");
     }
 
     @FXML
     private void handleViewUsers() {
-        // NEW: open the admin user list screen
-        openScene("/net/javaguids/popin/views/user-list.fxml", "All Users");
+        System.out.println("Admin clicked: View All Users");
+        // this expects you already created user-list.fxml + controller
+        openScene("/net/javaguids/popin/views/user-list.fxml",
+                "All Users");
     }
 
     @FXML
     private void handleViewAnalytics() {
-        System.out.println("OPEN ANALYTICS");
+        System.out.println("Admin clicked: Analytics");
         // later: open analytics.fxml
     }
 
     @FXML
     private void handleViewFlags() {
-        System.out.println("OPEN FLAGGED EVENTS");
-        // later: open flags view
+        System.out.println("Admin clicked: Manage Flags / Reports");
+        // later: open flags/Reports view
     }
 
     @FXML
     private void handleLogout() {
+        System.out.println("Admin clicked: Logout");
         openScene("/net/javaguids/popin/views/login.fxml", "PopIn Login");
     }
 
     private void openScene(String fxml, String title) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+            System.out.println("Trying to load FXML: " + fxml);
+            var url = getClass().getResource(fxml);
+            System.out.println("Resolved URL = " + url);
+
+            FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
 
             Stage stage = new Stage();
@@ -55,6 +64,7 @@ public class AdminDashboardController {
             stage.show();
 
         } catch (Exception e) {
+            System.err.println("Error while opening scene: " + fxml);
             e.printStackTrace();
         }
     }

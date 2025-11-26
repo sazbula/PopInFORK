@@ -16,10 +16,11 @@
         <TableView fx:id="eventTable" prefHeight="300">
             <columns>
                 <TableColumn fx:id="idColumn" text="ID" prefWidth="60"/>
-                <TableColumn fx:id="titleColumn" text="Title" prefWidth="180"/>
-                <TableColumn fx:id="organizerColumn" text="Organizer" prefWidth="160"/>
-                <TableColumn fx:id="dateColumn" text="Date and Time" prefWidth="160"/>
-                <TableColumn fx:id="capacityColumn" text="Capacity" prefWidth="100"/>
+                <TableColumn fx:id="titleColumn" text="Title" prefWidth="200"/>
+                <TableColumn fx:id="dateColumn" text="Date &amp; Time" prefWidth="180"/>
+                <TableColumn fx:id="venueColumn" text="Venue" prefWidth="160"/>
+                <TableColumn fx:id="capacityColumn" text="Capacity" prefWidth="90"/>
+                <TableColumn fx:id="organizerIdColumn" text="Organizer ID" prefWidth="110"/>
             </columns>
         </TableView>
     </center>
