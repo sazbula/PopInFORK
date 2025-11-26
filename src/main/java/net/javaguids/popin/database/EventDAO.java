@@ -32,11 +32,9 @@ public class EventDAO {
             );
         """;
 
-        try (Connection conn = Database.getConnection();   // <<< your class name
+        try (Connection conn = Database.getConnection();
              Statement stmt = conn.createStatement()) {
-
             stmt.execute(sql);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -74,8 +72,7 @@ public class EventDAO {
         }
     }
 
-
-    // LIST UPCOMING EVENTS
+    // LIST UPCOMING EVENTS (already existed)
     public List<Event> findAllUpcoming() {
         List<Event> events = new ArrayList<>();
 
@@ -98,6 +95,47 @@ public class EventDAO {
         }
 
         return events;
+    }
+
+    // NEW: LIST ALL EVENTS (past + future) FOR ADMIN OVERVIEW
+    public List<Event> findAll() {
+        List<Event> events = new ArrayList<>();
+
+        String sql = """
+            SELECT * FROM events
+            ORDER BY datetime(date_time) DESC;
+        """;
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                events.add(mapRowToEvent(rs));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return events;
+    }
+
+    // NEW: DELETE EVENT BY ID
+    public boolean deleteEvent(int id) {
+        String sql = "DELETE FROM events WHERE id = ?";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            int rows = stmt.executeUpdate();
+            return rows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     // RESULTSET → EVENT
